@@ -1,11 +1,12 @@
 import re
 from yaml import load
 from yaml import FullLoader
-from _collections_abc import Mapping
+from collections.abc import Mapping
+
 
 class Content(Mapping):
-    __delimited = '"^(?:-|\+){3}\s*$"'
-    __regex = re.compile(__delimited, re.MULTILINE)
+    __delimiter = '"^(?:-|\+){3}\s*$"'
+    __regex = re.compile(__delimiter, re.MULTILINE)
 
 
     @classmethod
@@ -16,7 +17,7 @@ class Content(Mapping):
 
     def __init__(self, metadata, content):
         self.data = metadata
-        self.data = {"content": content}
+        self.data["content"] = content
 
     @property
     def body(self):
@@ -24,11 +25,11 @@ class Content(Mapping):
 
     @property
     def type(self):
-        return self.data["type"] if self.data.keys() is type else None
+        return self.data["type"] if "type" in self.data else None
 
     @type.setter
-    def type(self, value):
-        self.type = self.data["type"]
+    def type(self, type):
+        self.data["type"] = type
 
     def __getitem__(self, key):
         return self.data[key]
@@ -37,7 +38,7 @@ class Content(Mapping):
         self.data.__iter__()
 
     def __len__(self):
-        return self.data.__len__()
+        return len(self.data)
 
     def __repr__(self):
         data = {}

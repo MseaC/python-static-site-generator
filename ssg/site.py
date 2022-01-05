@@ -21,12 +21,12 @@ class Site:
 
     def load_parser(self, extension):
         for parser in self.parsers:
-            if self.Parsers.valid_extension(extension):
-                print (parser)
+            if parser.valid_extension(extension):
+                return parser
 
     def run_parser(self, path):
-        parser = load_parser(path.suffix)
+        parser = self.load_parser(path.suffix)
         if parser is not None:
-            parser.parse(path, source, dest)
-        elif:
+            parser.parse(path, self.source, self.dest)
+        else:
             print("Not Implemented")
